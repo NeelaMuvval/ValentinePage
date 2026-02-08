@@ -545,20 +545,72 @@
         const yesBtn = document.getElementById('yesBtn');
         const successOverlay = document.getElementById('successOverlay');
         const bgMusic = document.getElementById('bgMusic');
+                const loveQuestions = [
+        {
+              question: "When did you first start liking me? 💕",
+              options: ["From the first day 😍", "Slowly over time 💖"]
+       },
+       {
+              question: "What is your favorite thing about me? 😘",
+              options: ["Your smile 😊", "Your caring nature 💕"]
+       },
+       {
+              question: "Will you go on a date with me? 🌹",
+              options: ["Yes of course 💘", "Only if you plan it 😉"]
+       },
+       {
+             question: "Promise to stay with me forever? 💖",
+             options: ["Forever & Always 🥰", "Till the end of time 💞"]
+      },
+      {
+             question:"What makes  you Remember me everytime?🤗 ",
+             options : ["My Cute Expressions 🥰","My tingari panulu 😝 "]
+      }
+   ];
+
+    let currentQuestionIndex = 0;
+    let isQuestionMode = false;
+
 
         yesBtn.addEventListener('click', () => {
-            successOverlay.style.display = 'flex';
-            createConfetti();
-            
-            bgMusic.play();
-            updateMusicControl(true);
-            
-            const bear = document.querySelector('.bear');
-            bear.style.animation = 'characterFloat 0.5s ease-in-out infinite';
 
-            // Play click sound
+    if (!isQuestionMode) {
+        isQuestionMode = true;
+        showQuestion();
+        return;
+    }
+
+});
+function showQuestion() {
+
+    if (currentQuestionIndex >= loveQuestions.length) {
+        successOverlay.style.display = 'flex';
+        createConfetti();
+        bgMusic.play();
+        updateMusicControl(true);
+        return;
+    }
+
+    const questionData = loveQuestions[currentQuestionIndex];
+
+    questionElement.textContent = questionData.question;
+    const buttonsContainer = document.querySelector('.buttons');
+    buttonsContainer.innerHTML = '';
+    questionData.options.forEach(optionText => {
+        const btn = document.createElement('button');
+        btn.textContent = optionText;
+        btn.style.background = "linear-gradient(135deg, #ff1493 0%, #ff69b4 100%)";
+        btn.style.color = "white";
+
+        btn.addEventListener('click', () => {
+            currentQuestionIndex++;
             playSound('click');
+            showQuestion();
         });
+
+        buttonsContainer.appendChild(btn);
+    });
+}
         function createConfetti() {
             const colors = ['#ff1493', '#ff69b4', '#ffb6c1', '#ff69b4', '#ffc0cb'];
             
@@ -632,4 +684,5 @@
         }, { once: true });
     </script>
 </body>
+
 </html>
